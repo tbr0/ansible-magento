@@ -1,0 +1,18 @@
+---
+# Main tasks handler for the New Relic installation and configuration.
+
+- include_vars: "{{ansible_os_family}}.yml" 
+
+- include: fail.yml
+  when: license_key is not defined or license_key == ""
+
+- include: repo.yml 
+- include: install.yml
+
+- include: newrelic-install.yml
+  when: ansible_os_family == "RedHat"
+
+- include: nrsysmond-config.yml
+
+- include: set-newrelic-license-key.yml
+  when: ansible_os_family == "Debian"
