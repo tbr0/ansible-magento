@@ -1,0 +1,26 @@
+---
+# Playbook to install New Relic sysmond and agent.
+
+- name: Install Nginx - RedHat6
+  yum: pkg={{ item }} state=installed
+  with_items:
+    - nginx
+  when: ansible_os_family == 'RedHat'
+
+- name: Download New Relic GPG key - Debian
+  apt_key: url=https://download.newrelic.com/548C16BF.gpg state=present
+  when: ansible_os_family == 'Debian'
+
+- name: Preseed New Relic PHP Agent - Debian
+  debconf: name="newrelic-php5" question="newrelic-php5/license-key" value={{ license_key }} vtype=string
+  when: ansible_os_family == 'Debian' and license_key != ""
+
+- name: Install New Relic PHP Agent and System Monitor - Debian
+  apt: pkg={{ item }} state=installed update_cache=yes
+  with_items:
+    - newrelic-php5
+    - newrelic-sysmond
+  notify: 
+    - restart apache
+    - restart php-fpm
+  when: ansible_os_family == 'Debian'

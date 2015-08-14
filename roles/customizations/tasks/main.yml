@@ -1,0 +1,6 @@
+---
+# Main tasks handler for the customizations installation and configuration.
+
+- include_vars: "{{ansible_os_family}}.yml" 
+
+- include: disable-services.yml

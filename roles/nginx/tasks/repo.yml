@@ -1,0 +1,8 @@
+---
+- name: Add New Relic repo
+  template: src={{ ansible_os_family }}/nginx.repo.j2 dest={{ repo_path }}/nginx.repo
+  when: ansible_os_family == "RedHat"
+
+- name: Add New Relic repo
+  shell: echo 'deb http://apt.newrelic.com/debian/ newrelic non-free' | tee /etc/apt/sources.list.d/newrelic.list
+  when: ansible_os_family == "Debian"

@@ -1,0 +1,5 @@
+- name: Disable Apache on RHEL. 
+  service: name=httpd enabled=no state=stopped
+
+- name: Disable MySQL on RHEL.
+  service: name=mysqld enabled=no state=stopped
