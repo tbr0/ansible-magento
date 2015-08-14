@@ -4,7 +4,7 @@ upstream ro_php_fpm {
 }
 # The 'canwrite' fastcgi_pass backend, used for admin and upload style pages. Can write to fs on web-01
 upstream rw_php_fpm {
-        server 192.168.3.1:9000;
+        server {{ hostvars[inventory_hostname].ansible_eth2.ipv4.address }}:9000;
 }
 # All http POST, PUT and similar requests go to the master node 
 # We only handle GET and HEAD on the ro backend
